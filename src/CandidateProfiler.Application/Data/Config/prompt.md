@@ -1,11 +1,11 @@
-﻿# 📄 README.md — Resume Analyzer Prompt
+# 📄 Resume Analysis Instructions
 
-Toma el siguiente texto de un **Curriculum Vitae** extraído de un PDF.  
-Procesa y evalúa de manera exhaustiva, generando limpieza, reescritura y un análisis completo según los criterios detallados.
+Take the following text extracted from a **Curriculum Vitae (Resume)** in PDF format.  
+Process and evaluate it thoroughly, performing cleaning, rewriting, and a complete analysis according to the detailed criteria below.
 
 ---
 
-## ✨ Instrucciones Generales
+## ✨ General Instructions
 
 Act as an advanced Resume Analyzer and Rewriter.
 
@@ -36,7 +36,7 @@ Provide detailed analysis according to the sections below.
 
 ---
 
-## ## 📋 General Information
+## 📋 General Information
 
 - **TitleDetected**: the title explicitly stated by the candidate.
 - **TitlePredicted**: the title you infer from the content.
@@ -52,7 +52,7 @@ Provide detailed analysis according to the sections below.
 
 ---
 
-## ## 🛠️ Skills Detected
+## 🛠️ Skills Detected
 
 For each skill:
 - **SkillName**
@@ -61,7 +61,7 @@ For each skill:
 
 ---
 
-## ## 🗝️ Keyword Coverage
+## 🗝️ Keyword Coverage
 
 - **KeywordsDetected**: list of detected keywords.
 - **KeywordsMissing**: relevant keywords not found.
@@ -70,7 +70,7 @@ For each skill:
 
 ---
 
-## ## 🌍 Languages
+## 🌍 Languages
 
 For each language:
 - **Language**
@@ -79,7 +79,7 @@ For each language:
 
 ---
 
-## ## 📝 Clarity and Formatting
+## 📝 Clarity and Formatting
 
 - **ClarityScore**: subjective evaluation (0–100).
 - **FormattingScore**: structure and visual presentation (0–100).
@@ -87,7 +87,7 @@ For each language:
 
 ---
 
-## ## 👔 Relevance to Target Role
+## 👔 Relevance to Target Role
 
 - **TitleMatch**: degree of alignment with the target title.
 - **ResponsibilityMatch**: degree of alignment with target responsibilities.
@@ -95,7 +95,7 @@ For each language:
 
 ---
 
-## ## 🧠 Scoring
+## 🧠 Scoring
 
 Provide a numeric score (0–100) and a short comment for each dimension:
 
@@ -112,7 +112,7 @@ Provide a numeric score (0–100) and a short comment for each dimension:
 
 ---
 
-## ## 🧾 Summary and Feedback
+## 🧾 Summary and Feedback
 
 - **Summary**: one-paragraph description of the candidate profile.
 - **Strengths**: top 5 strengths.
@@ -121,7 +121,7 @@ Provide a numeric score (0–100) and a short comment for each dimension:
 
 ---
 
-## ## 🧽 Cleaned Resume Text
+## 🧽 Cleaned Resume Text
 
 Provide the cleaned, improved resume text ready for export.
 
@@ -132,41 +132,158 @@ Provide the cleaned, improved resume text ready for export.
 ```json
 {
   "GeneralInfo": {
-    "TitleDetected": "",
-    "TitlePredicted": "",
-    "SeniorityLevel": "",
-    "YearsExperience": 0,
-    "RelevantYears": 0,
-    "IndustryMatch": "",
-    "TrajectoryPattern": "",
-    "MainIndustry": "",
-    "EnglishLevel": "",
+    "Fullname": null,
+    "TitleDetected": null,
+    "TitlePredicted": null,
+    "SeniorityLevel": null,
+    "YearsExperience": null,
+    "RelevantYears": null,
+    "IndustryMatch": null,
+    "TrajectoryPattern": null,
+    "MainIndustry": null,
+    "EnglishLevel": null,
     "OtherLanguages": [],
-    "Location": ""
+    "Location": null
   },
   "SkillMatrix": [],
   "KeywordCoverage": {
     "KeywordsDetected": [],
     "KeywordsMissing": [],
-    "Density": 0,
-    "Context": ""
+    "Density": null,
+    "Context": null
   },
   "Languages": [],
-  "Scores": {},
+  "Scores": {
+    "GeneralScore": null,
+    "ATSCompatibility": null,
+    "ClarityScore": null,
+    "FormattingScore": null,
+    "KeywordDensity": null,
+    "EnglishProficiency": null,
+    "SeniorityMatch": null,
+    "SkillCoverage": null,
+    "AchievementsQuantification": null,
+    "SoftSkillsCoverage": null
+  },
   "Relevance": {
-    "TitleMatch": "",
-    "ResponsibilityMatch": "",
-    "OverallFit": ""
+    "TitleMatch": null,
+    "ResponsibilityMatch": null,
+    "OverallFit": null
   },
   "ClarityAndFormatting": {
-    "ClarityScore": 0,
-    "FormattingScore": 0,
-    "SpellingErrors": 0
+    "ClarityScore": null,
+    "FormattingScore": null,
+    "SpellingErrors": null
   },
-  "Summary": "",
+  "Summary": null,
   "Strengths": [],
   "AreasToImprove": [],
   "Tips": [],
-  "CleanedResumeText": ""
+  "CleanedResumeText": null
 }
 ```
+
+## ✨ Example Output JSON DataType
+
+```json
+{
+  "GeneralInfo": {
+    "Fullname": "string",
+    "TitleDetected": "string",
+    "TitlePredicted": "string or null",
+    "SeniorityLevel": "string or null",
+    "YearsExperience": "number",
+    "RelevantYears": "number",
+    "IndustryMatch": "string or null",
+    "TrajectoryPattern": "string or null",
+    "MainIndustry": "string or null",
+    "EnglishLevel": "string or null",
+    "OtherLanguages": [
+      {
+        "Language": "string",
+        "Proficiency": "string",
+        "Evidence": "string"
+      }
+    ],
+    "Location": "string or null"
+  },
+  "SkillMatrix": [
+    {
+      "SkillName": "string",
+      "SkillLevel": "string",
+      "Evidence": "string"
+    }
+  ],
+  "KeywordCoverage": {
+    "KeywordsDetected": ["string"],
+    "KeywordsMissing": ["string"],
+    "Density": "number",
+    "Context": "string"
+  },
+  "Languages": [
+    {
+      "Language": "string",
+      "Proficiency": "string",
+      "Evidence": "string"
+    }
+  ],
+  "Scores": {
+    "GeneralScore": "number",
+    "ATSCompatibility": "number",
+    "ClarityScore": "number",
+    "FormattingScore": "number",
+    "KeywordDensity": "number",
+    "EnglishProficiency": "number",
+    "SeniorityMatch": "string",
+    "SkillCoverage": "number",
+    "AchievementsQuantification": "number",
+    "SoftSkillsCoverage": "number"
+  },
+  "RelevanceToTargetRole": {
+    "TitleMatch": "number",
+    "ResponsibilityMatch": "number",
+    "OverallFit": "number"
+  },
+  "ClarityAndFormatting": {
+    "ClarityScore": "number",
+    "FormattingScore": "number",
+    "SpellingErrors": "number"
+  },
+  "Summary": "string",
+  "Strengths": ["string"],
+  "AreasToImprove": ["string"],
+  "Tips": ["string"],
+  "CleanedResumeText": "string"
+}
+```
+
+---
+
+## 📝 Additional Formatting Requirements
+
+- **Fullname** must be a separate field from **TitleDetected**.
+- **YearsExperience** and **RelevantYears** must be numeric integers (e.g., 5).
+- **RelevanceToTargetRole** must contain:
+  - Numeric percentages (0–100) for each match.
+  - Optionally, a text label (Low/Moderate/High) in a separate property if needed.
+- Always include **KeywordCoverage**, even if empty.
+- All numeric fields must be integers without quotes.
+- No empty strings; use `null` instead.
+
+---
+
+## 🧾 Summary and Feedback
+
+- No trailing commas.
+- All numeric fields must be numbers only (e.g., 5), not strings or dates.
+- Use null if data is missing.
+- Do not insert slashes or date formats in numeric fields.
+- Respond ONLY with valid JSON.
+- Ensure your JSON is syntactically correct.
+- Do not include comments, explanations, or trailing characters after the final "}".
+
+⚠️ Respond ONLY with a valid JSON object. Do not add any explanations or comments.
+
+Below is the resume to process:
+
+_@{PROCESSED_TEXT}

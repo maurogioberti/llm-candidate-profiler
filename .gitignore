@@ -398,3 +398,9 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Project-specific data folders to ignore
+src/CandidateProfiler.Application/Data/Tmp/
+src/CandidateProfiler.Application/Data/Config/
+src/CandidateProfiler.Application/Data/Input/
+src/CandidateProfiler.Application/Data/Output/

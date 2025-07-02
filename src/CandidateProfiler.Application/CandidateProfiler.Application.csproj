@@ -7,9 +7,33 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Data\Config\prompt.md">
+    <None Include="Data\Config\prompt.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\Input\" />
+    <Folder Include="Data\Output\" />
+    <Folder Include="Data\Tmp\" />
+    <Folder Include="NewFolder\" />
+  </ItemGroup>
+
+<ItemGroup>
+	<None Update="Data\Config\prompt.md">
+		<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</None>
+	<None Update="Data\Config\task_config.json">
+		<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</None>
+	<None Update="Data\Input\*.pdf">
+		<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</None>
+</ItemGroup>
+	
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="PdfPig" Version="0.1.10" />
   </ItemGroup>
 
 </Project>
