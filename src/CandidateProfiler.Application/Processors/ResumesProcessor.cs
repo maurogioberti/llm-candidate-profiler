@@ -1,10 +1,8 @@
+using System.Diagnostics;
 using System.Text.Json;
-using System.Text;
 using CandidateProfiler.Application.Domain.Models;
 using CandidateProfiler.Application.Processors.Abstractions;
 using CandidateProfiler.Application.Services.Abstractions;
-using System.Diagnostics;
-using CandidateProfiler.Application.Services;
 
 namespace CandidateProfiler.Application.Processors;
 
@@ -12,6 +10,7 @@ public class ResumesProcessor(
         IDocumentReader reader,
         ILlmService llm,
         ITaskConfigLoader configLoader,
+        IReportBuilder reportBuilder,
         IPromptService promptService) : IResumesProcessor
 {
 
@@ -31,7 +30,27 @@ public class ResumesProcessor(
         await ProcessInputFile(reader, llm, promptService, inputFiles, assets);
 
         var outputDir = Path.Combine("Data", "Output");
-       
+
+        var jsonFiles = Directory.GetFiles(outputDir, "*.json");
+
+        if (!jsonFiles.Any())
+        {
+            Console.WriteLine("No JSON files found in the output directory.");
+            return;
+        }
+
+        var report = await reportBuilder.GenerateHtmlReportAsync(jsonFiles);
+
+        var reportFile = Path.Combine("Data", "Output", "report.html");
+        await File.WriteAllTextAsync(reportFile, report);
+        Console.WriteLine($"HTML report generated at: {reportFile}");
+
+        Process.Start(new ProcessStartInfo
+        {
+            FileName = reportFile,
+            UseShellExecute = true
+        });
+
         Console.WriteLine("All resumes processed successfully!");
     }
 

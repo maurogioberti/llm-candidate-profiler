@@ -13,7 +13,8 @@ var builder = Host.CreateDefaultBuilder(args)
         services.AddSingleton<ITaskConfigLoader, TaskConfigLoader>();
         services.AddSingleton<ITempStorageService, TempStorageService>();
         services.AddSingleton<IPromptService, PromptService>();
-        services.AddHttpClient<ILlmService, DeepSeekLlmService>();
+        services.AddSingleton<IReportBuilder, ReportBuilder>();
+        services.AddHttpClient<ILlmService, OpenAiLlmService>();
         services.AddSingleton<IResumesProcessor, ResumesProcessor>();
     });
 

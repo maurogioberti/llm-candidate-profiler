@@ -178,85 +178,9 @@ Provide the cleaned, improved resume text ready for export.
   "Summary": null,
   "Strengths": [],
   "AreasToImprove": [],
-  "Tips": [],
-  "CleanedResumeText": null
+  "Tips": []
 }
 ```
-
-## ✨ Example Output JSON DataType
-
-```json
-{
-  "GeneralInfo": {
-    "Fullname": "string",
-    "TitleDetected": "string",
-    "TitlePredicted": "string or null",
-    "SeniorityLevel": "string or null",
-    "YearsExperience": "number",
-    "RelevantYears": "number",
-    "IndustryMatch": "string or null",
-    "TrajectoryPattern": "string or null",
-    "MainIndustry": "string or null",
-    "EnglishLevel": "string or null",
-    "OtherLanguages": [
-      {
-        "Language": "string",
-        "Proficiency": "string",
-        "Evidence": "string"
-      }
-    ],
-    "Location": "string or null"
-  },
-  "SkillMatrix": [
-    {
-      "SkillName": "string",
-      "SkillLevel": "string",
-      "Evidence": "string"
-    }
-  ],
-  "KeywordCoverage": {
-    "KeywordsDetected": ["string"],
-    "KeywordsMissing": ["string"],
-    "Density": "number",
-    "Context": "string"
-  },
-  "Languages": [
-    {
-      "Language": "string",
-      "Proficiency": "string",
-      "Evidence": "string"
-    }
-  ],
-  "Scores": {
-    "GeneralScore": "number",
-    "ATSCompatibility": "number",
-    "ClarityScore": "number",
-    "FormattingScore": "number",
-    "KeywordDensity": "number",
-    "EnglishProficiency": "number",
-    "SeniorityMatch": "string",
-    "SkillCoverage": "number",
-    "AchievementsQuantification": "number",
-    "SoftSkillsCoverage": "number"
-  },
-  "RelevanceToTargetRole": {
-    "TitleMatch": "number",
-    "ResponsibilityMatch": "number",
-    "OverallFit": "number"
-  },
-  "ClarityAndFormatting": {
-    "ClarityScore": "number",
-    "FormattingScore": "number",
-    "SpellingErrors": "number"
-  },
-  "Summary": "string",
-  "Strengths": ["string"],
-  "AreasToImprove": ["string"],
-  "Tips": ["string"],
-  "CleanedResumeText": "string"
-}
-```
-
 ---
 
 ## 📝 Additional Formatting Requirements
@@ -283,6 +207,8 @@ Provide the cleaned, improved resume text ready for export.
 - Do not include comments, explanations, or trailing characters after the final "}".
 
 ⚠️ Respond ONLY with a valid JSON object. Do not add any explanations or comments.
+⚠️ Responds only once, without repeating the JSON or restarting the output.
+If any error occurs, do not regenerate the entire JSON. Just complete as much as possible in the first attempt.
 
 Below is the resume to process:
 

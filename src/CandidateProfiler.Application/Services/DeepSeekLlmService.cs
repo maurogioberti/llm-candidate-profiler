@@ -4,7 +4,7 @@ namespace CandidateProfiler.Application.Services;
 
 public class DeepSeekLlmService : ILlmService
 {
-    private const string LlmModelName = "deepseek-llm:7b-chat";
+    private const string LlmModelName = "deepseek-llm:7b-chat"; //llama2 | mistral
     private const string ResponseProperty = "response";
     private const string JsonMediaType = "application/json";
     private readonly HttpClient _httpClient;
@@ -23,7 +23,7 @@ public class DeepSeekLlmService : ILlmService
             model = LlmModelName,
             prompt = prompt,
             stream = false,
-            temperature = 0.1
+            temperature = 0
         };
 
         var response = await _httpClient.PostAsync(
@@ -32,6 +32,7 @@ public class DeepSeekLlmService : ILlmService
         );
 
         var responseContent = await response.Content.ReadAsStringAsync();
+
         using var doc = System.Text.Json.JsonDocument.Parse(responseContent);
         var output = doc.RootElement.GetProperty(ResponseProperty).GetString();
         return output ?? string.Empty;
