@@ -2,14 +2,14 @@ using CandidateProfiler.Application.Services.Abstractions;
 
 namespace CandidateProfiler.Application.Services;
 
-public class DeepSeekLlmService : ILlmService
+public class OllamaLlmService : ILlmService
 {
     private const string LlmModelName = "deepseek-llm:7b-chat"; //llama2 | mistral
     private const string ResponseProperty = "response";
     private const string JsonMediaType = "application/json";
     private readonly HttpClient _httpClient;
 
-    public DeepSeekLlmService(HttpClient httpClient)
+    public OllamaLlmService(HttpClient httpClient)
     {
         _httpClient = httpClient;
         _httpClient.Timeout = TimeSpan.FromMinutes(25);
