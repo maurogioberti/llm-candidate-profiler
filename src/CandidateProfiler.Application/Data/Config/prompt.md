@@ -15,6 +15,15 @@ Follow these instructions carefully:
 
 ---
 
+## 📊 0. Generate Unique Identifier for this Analysis
+
+- Generate `CandidateId` automatically from the candidate’s full name (if available) and the main role/stack detected.  
+- Optionally add one extra attribute (e.g., English level or seniority) to increase uniqueness.  
+- Format in PascalCase, no spaces or special characters (e.g., `JohnDoeFrontendReactEnglishB2`).  
+- If no full name is found, generate a descriptive identifier using whatever info is available.
+
+---
+
 ## 🧹 1. Clean and Reformat
 
 - Remove encoding issues, broken lines, and formatting problems.
@@ -132,6 +141,7 @@ Provide the cleaned, improved resume text ready for export.
 ```json
 {
   "GeneralInfo": {
+    "CandidateId": null,
     "Fullname": null,
     "TitleDetected": null,
     "TitlePredicted": null,
