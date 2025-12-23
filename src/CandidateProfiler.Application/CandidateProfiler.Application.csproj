@@ -16,7 +16,6 @@
     <Folder Include="Data\Input\" />
     <Folder Include="Data\Output\" />
     <Folder Include="Data\Tmp\" />
-    <Folder Include="NewFolder\" />
   </ItemGroup>
 
 <ItemGroup>
