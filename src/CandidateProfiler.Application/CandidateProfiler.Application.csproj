@@ -20,10 +20,16 @@
   </ItemGroup>
 
 <ItemGroup>
-	<None Update="Data\Config\prompt.md">
+	<None Update="Data\Config\*.md">
 		<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	</None>
-	<None Update="Data\Config\task_config.json">
+	<None Update="Data\Config\*.json">
+		<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</None>
+	<None Update="Data\Templates\*.html">
+		<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</None>
+	<None Update="Data\Templates\*.js">
 		<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	</None>
 	<None Update="Data\Input\*.pdf">

@@ -1,0 +1,44 @@
+    <div class='col'>
+        <div class='card h-100 shadow-sm'>
+            <div class='card-body d-flex flex-column'>
+                <div class='d-flex align-items-center mb-3'>
+                    <div class='candidate-avatar me-3' title='Candidate initials'>{{INITIALS}}</div>
+                    <div>
+                        <h5 class='card-title mb-0'>{{FULL_NAME}}</h5>
+                        <div class='fw-light text-muted' title='Detected Title'>{{TITLE_DETECTED}}</div>
+                    </div>
+                </div>
+                <div class='mb-2'>
+                    <span class='badge badge-custom {{SENIORITY_BADGE}}' title='Seniority'>{{SENIORITY}}</span>
+                    <span class='badge badge-custom {{INDUSTRY_BADGE}}' title='Main Industry'>{{INDUSTRY}}</span>
+                    <span class='badge badge-custom {{ENGLISH_BADGE}}' title='English Level'>{{ENGLISH}}</span>
+                </div>
+                <div class='mb-3'>
+                    <strong>General Score:</strong>
+                    <span class='badge bg-primary fs-6'>{{GENERAL_SCORE}}</span>
+                    <div class='progress score-bar mt-1' title='General Score'>
+                        <div class='progress-bar bg-primary' style='width:{{GENERAL_SCORE}}%'>{{GENERAL_SCORE}}%</div>
+                    </div>
+                </div>
+                <div>
+                    <strong>Skills Coverage:</strong>
+                    <span title='Keywords detected'><span class='text-success fw-bold'>{{KEYWORDS_DETECTED}}</span> found</span>
+                    <span class='mx-2'>/</span>
+                    <span title='Keywords missing'><span class='text-danger fw-bold'>{{KEYWORDS_MISSING}}</span> missing</span>
+                </div>
+                <div class='mt-3'>
+                    <canvas id='skillsCoverageChart{{CANDIDATE_INDEX}}' height='80'></canvas>
+                </div>
+                <div class='mt-4'>
+                    <strong>Role Fit:</strong>
+                    <div class='progress progress-fit mt-1 mb-2'>
+                        <div class='progress-bar bg-success' style='width:{{OVERALL_FIT}}%'>{{OVERALL_FIT}}%</div>
+                    </div>
+                    <canvas id='relevancePieChart{{CANDIDATE_INDEX}}' height='80'></canvas>
+                </div>
+                <div class='mt-3 d-flex justify-content-between'>
+                    <a href='#feedback' class='btn btn-sm btn-outline-info'>Give Feedback</a>
+                </div>
+            </div>
+        </div>
+    </div>

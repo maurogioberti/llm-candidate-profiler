@@ -6,17 +6,19 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 var builder = Host.CreateDefaultBuilder(args)
-    .ConfigureServices((context, services) =>
-    {
-        services.AddSingleton<IDocumentReader, PdfReader>();
-        services.AddSingleton<IPromptLoader, PromptLoader>();
-        services.AddSingleton<ITaskConfigLoader, TaskConfigLoader>();
-        services.AddSingleton<ITempStorageService, TempStorageService>();
-        services.AddSingleton<IPromptService, PromptService>();
-        services.AddSingleton<IReportBuilder, ReportBuilder>();
-        services.AddHttpClient<ILlmService, OpenAiLlmService>();
-        services.AddSingleton<IResumesProcessor, ResumesProcessor>();
-    });
+.ConfigureServices((context, services) =>
+{
+    services.AddSingleton<IDocumentReader, PdfReader>();
+    services.AddSingleton<IPromptLoader, PromptLoader>();
+    services.AddSingleton<ITaskConfigLoader, TaskConfigLoader>();
+    services.AddSingleton<ITempStorageService, TempStorageService>();
+    services.AddSingleton<IPromptService, PromptService>();
+    services.AddSingleton<ITemplateService, TemplateService>();
+    services.AddSingleton<ITemplateConfigLoader, TemplateConfigLoader>();
+    services.AddSingleton<IReportBuilder, ReportBuilder>();
+    services.AddHttpClient<ILlmService, OpenAiLlmService>();
+    services.AddSingleton<IResumesProcessor, ResumesProcessor>();
+});
 
 var app = builder.Build();
 var processor = app.Services.GetRequiredService<IResumesProcessor>();
