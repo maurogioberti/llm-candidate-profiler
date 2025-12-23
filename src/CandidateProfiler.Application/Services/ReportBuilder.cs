@@ -8,20 +8,17 @@ namespace CandidateProfiler.Application.Services;
 
 public class ReportBuilder : IReportBuilder
 {
-    private const string ReportTemplatePath = "Data/Templates/report_template.html";
-    private const string CandidateCardTemplatePath = "Data/Templates/candidate_card_template.html";
-    private const string ChartScriptTemplatePath = "Data/Templates/chart_script_template.js";
-    private const string TemplateConfigPath = "Data/Config/template_config.json";
-    
     private readonly ITemplateService _templateService;
     private readonly ITemplateConfigLoader _templateConfigLoader;
     private readonly TemplateConfig _templateConfig;
+    private readonly AppConfig _appConfig;
 
-    public ReportBuilder(ITemplateService templateService, ITemplateConfigLoader templateConfigLoader)
+    public ReportBuilder(ITemplateService templateService, ITemplateConfigLoader templateConfigLoader, AppConfig appConfig)
     {
         _templateService = templateService;
         _templateConfigLoader = templateConfigLoader;
-        _templateConfig = _templateConfigLoader.LoadConfig(TemplateConfigPath);
+        _appConfig = appConfig;
+        _templateConfig = _templateConfigLoader.LoadConfig(appConfig.ConfigFiles.TemplateConfig);
     }
 
     public async Task<string> GenerateHtmlReportAsync(IEnumerable<string> jsonFiles)
@@ -65,7 +62,7 @@ public class ReportBuilder : IReportBuilder
             candidateIndex++;
         }
 
-        var template = _templateService.LoadTemplate(ReportTemplatePath);
+        var template = _templateService.LoadTemplate(_appConfig.Templates.Report);
         var replacements = new Dictionary<string, string>
         {
             { "TOTAL_CANDIDATES", candidatesData.Count.ToString() },
@@ -100,7 +97,7 @@ public class ReportBuilder : IReportBuilder
         var responsibilityMatch = MapFit(relevanceInfo?["ResponsibilityMatch"]?.ToString() ?? "");
         var overallFit = MapFit(relevanceInfo?["OverallFit"]?.ToString() ?? "");
 
-        var cardTemplate = _templateService.LoadTemplate(CandidateCardTemplatePath);
+        var cardTemplate = _templateService.LoadTemplate(_appConfig.Templates.CandidateCard);
         var cardReplacements = new Dictionary<string, string>
         {
             { "INITIALS", initials },
@@ -120,7 +117,7 @@ public class ReportBuilder : IReportBuilder
         };
         candidateCards.AppendLine(_templateService.ReplaceTokens(cardTemplate, cardReplacements));
 
-        var chartTemplate = _templateService.LoadTemplate(ChartScriptTemplatePath);
+        var chartTemplate = _templateService.LoadTemplate(_appConfig.Templates.ChartScript);
         var chartReplacements = new Dictionary<string, string>
         {
             { "CANDIDATE_INDEX", candidateIndex.ToString() },

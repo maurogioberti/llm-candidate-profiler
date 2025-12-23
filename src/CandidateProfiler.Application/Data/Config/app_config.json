@@ -1,0 +1,36 @@
+{
+  "Paths": {
+    "DataRoot": "Data",
+    "Config": "Data/Config",
+    "Templates": "Data/Templates",
+    "Input": "Data/Input",
+    "Output": "Data/Output",
+    "Temp": "Data/Tmp"
+  },
+  "ConfigFiles": {
+    "Prompt": "Data/Config/prompt.md",
+    "Task": "Data/Config/task_config.json",
+    "LlmConfig": "Data/Config/llm_config.json",
+    "TemplateConfig": "Data/Config/template_config.json"
+  },
+  "Templates": {
+    "Report": "Data/Templates/report_template.html",
+    "CandidateCard": "Data/Templates/candidate_card_template.html",
+    "ChartScript": "Data/Templates/chart_script_template.js"
+  },
+  "LlmProvider": "Ollama",
+  "Ollama": {
+    "BaseUrl": "http://localhost:11434",
+    "ModelName": "gpt-oss",
+    "Temperature": 0,
+    "TimeoutMinutes": 25
+  },
+  "OpenAi": {
+    "BaseUrl": "https://api.openai.com/v1",
+    "ModelName": "gpt-3.5-turbo",
+    "ApiKey": "{move-this-to-environment-variable}",
+    "Temperature": 0,
+    "TimeoutMinutes": 25,
+    "DelayMilliseconds": 3000
+  }
+}

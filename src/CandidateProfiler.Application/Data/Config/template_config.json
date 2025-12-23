@@ -1,0 +1,30 @@
+{
+  "BadgeMappings": {
+    "Seniority": {
+      "junior": "bg-info",
+      "mid": "bg-warning text-dark",
+      "senior": "bg-success",
+      "lead": "bg-danger",
+      "default": "bg-secondary"
+    },
+    "Industry": {
+      "default": "bg-dark",
+      "empty": "bg-secondary"
+    },
+    "EnglishLevel": {
+      "beginner": "bg-danger",
+      "intermediate": "bg-warning text-dark",
+      "advanced": "bg-primary",
+      "native": "bg-success",
+      "default": "bg-secondary"
+    }
+  },
+  "FitMappings": {
+    "low": 25,
+    "moderate": 50,
+    "fair": 60,
+    "high": 75,
+    "excellent": 100,
+    "default": 0
+  }
+}

@@ -1,33 +1,34 @@
+using CandidateProfiler.Application.Domain.Config;
 using CandidateProfiler.Application.Services.Abstractions;
 
 namespace CandidateProfiler.Application.Services;
+
 public class OpenAiLlmService : ILlmService
 {
-    private const string OpenAiChatCompletionsEndpoint = "https://api.openai.com/v1/chat/completions";
+    private const string ChatCompletionsEndpoint = "/chat/completions";
+    private const string JsonMediaType = "application/json";
+    
     private readonly HttpClient _httpClient;
-    private readonly string _apiKey;
-    private readonly string _modelName;
+    private readonly OpenAiConfig _config;
 
-    public OpenAiLlmService(HttpClient httpClient)
+    public OpenAiLlmService(HttpClient httpClient, AppConfig appConfig)
     {
         _httpClient = httpClient;
-        _apiKey = "{move-this-to-appconfig}";
-        _modelName = "gpt-3.5-turbo";
-        _httpClient = httpClient;
-        _httpClient.Timeout = TimeSpan.FromMinutes(25);
+        _config = appConfig.OpenAi;
+        _httpClient.Timeout = TimeSpan.FromMinutes(_config.TimeoutMinutes);
     }
 
     public async Task<string> CompleteAsync(string prompt)
     {
-        var apiUrl = OpenAiChatCompletionsEndpoint;
+        var apiUrl = $"{_config.BaseUrl}{ChatCompletionsEndpoint}";
         var requestBody = new
         {
-            model = _modelName,
+            model = _config.ModelName,
             messages = new[]
             {
                 new { role = "user", content = prompt }
             },
-            temperature = 0
+            temperature = _config.Temperature
         };
 
         var request = new HttpRequestMessage(HttpMethod.Post, apiUrl)
@@ -35,15 +36,18 @@ public class OpenAiLlmService : ILlmService
             Content = new StringContent(
                 System.Text.Json.JsonSerializer.Serialize(requestBody),
                 System.Text.Encoding.UTF8,
-                "application/json"
+                JsonMediaType
             )
         };
 
-        request.Headers.Add("Authorization", $"Bearer {_apiKey}");
+        request.Headers.Add("Authorization", $"Bearer {_config.ApiKey}");
 
         var response = await _httpClient.SendAsync(request);
         response.EnsureSuccessStatusCode();
-        await Task.Delay(3000);
+        
+        if (_config.DelayMilliseconds > 0)
+            await Task.Delay(_config.DelayMilliseconds);
+        
         var responseContent = await response.Content.ReadAsStringAsync();
 
         using var doc = System.Text.Json.JsonDocument.Parse(responseContent);

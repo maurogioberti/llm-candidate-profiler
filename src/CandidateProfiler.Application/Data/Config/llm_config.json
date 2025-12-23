@@ -1,0 +1,17 @@
+{
+  "LlmProvider": "Ollama",
+  "Ollama": {
+    "BaseUrl": "http://localhost:11434",
+    "ModelName": "gpt-oss",
+    "Temperature": 0,
+    "TimeoutMinutes": 25
+  },
+  "OpenAi": {
+    "BaseUrl": "https://api.openai.com/v1",
+    "ModelName": "gpt-3.5-turbo",
+    "ApiKey": "{move-this-to-appconfig-or-environment-variable}",
+    "Temperature": 0,
+    "TimeoutMinutes": 25,
+    "DelayMilliseconds": 3000
+  }
+}

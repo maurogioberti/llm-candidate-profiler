@@ -1,29 +1,33 @@
+using CandidateProfiler.Application.Domain.Config;
 using CandidateProfiler.Application.Services.Abstractions;
 
 namespace CandidateProfiler.Application.Services;
 
 public class OllamaLlmService : ILlmService
 {
-    private const string LlmModelName = "deepseek-llm:7b-chat"; //llama2 | mistral
+    private const string GenerateEndpoint = "/api/generate";
     private const string ResponseProperty = "response";
     private const string JsonMediaType = "application/json";
+    
     private readonly HttpClient _httpClient;
+    private readonly OllamaConfig _config;
 
-    public OllamaLlmService(HttpClient httpClient)
+    public OllamaLlmService(HttpClient httpClient, AppConfig appConfig)
     {
         _httpClient = httpClient;
-        _httpClient.Timeout = TimeSpan.FromMinutes(25);
+        _config = appConfig.Ollama;
+        _httpClient.Timeout = TimeSpan.FromMinutes(_config.TimeoutMinutes);
     }
 
     public async Task<string> CompleteAsync(string prompt)
     {
-        var apiUrl = "http://localhost:11434/api/generate";
+        var apiUrl = $"{_config.BaseUrl}{GenerateEndpoint}";
         var requestBody = new
         {
-            model = LlmModelName,
+            model = _config.ModelName,
             prompt = prompt,
             stream = false,
-            temperature = 0
+            temperature = _config.Temperature
         };
 
         var response = await _httpClient.PostAsync(

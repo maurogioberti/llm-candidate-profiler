@@ -1,13 +1,15 @@
 using System.Text.Json;
+using CandidateProfiler.Application.Domain.Config;
 
 namespace CandidateProfiler.Application.Services;
 
 public class TempStorageService : ITempStorageService
 {
-    private readonly string _baseFolder = Path.Combine("Data", "Tmp");
+    private readonly string _baseFolder;
 
-    public TempStorageService()
+    public TempStorageService(AppConfig config)
     {
+        _baseFolder = config.Paths.Temp;
         Directory.CreateDirectory(_baseFolder);
     }
 
