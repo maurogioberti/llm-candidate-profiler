@@ -1,4 +1,4 @@
-﻿using CandidateProfiler.Application.Domain.Config;
+﻿using CandidateProfiler.Application.Constants;
 using CandidateProfiler.Application.Processors;
 using CandidateProfiler.Application.Processors.Abstractions;
 using CandidateProfiler.Application.Services;
@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 var appConfigLoader = new AppConfigLoader();
-var appConfig = appConfigLoader.LoadConfig("Data/Config/app_config.json");
+var appConfig = appConfigLoader.LoadConfig(ConfigurationPaths.AppConfig);
 
 var builder = Host.CreateDefaultBuilder(args)
     .ConfigureServices((context, services) =>

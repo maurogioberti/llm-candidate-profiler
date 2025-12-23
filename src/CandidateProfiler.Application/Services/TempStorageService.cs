@@ -1,4 +1,5 @@
 using System.Text.Json;
+using CandidateProfiler.Application.Constants;
 using CandidateProfiler.Application.Domain.Config;
 
 namespace CandidateProfiler.Application.Services;
@@ -39,7 +40,7 @@ public class TempStorageService : ITempStorageService
     private string GetSnapshotPath(string docId)
     {
         var safeDocId = string.Join("_", docId.Split(Path.GetInvalidFileNameChars()));
-        return Path.Combine(_baseFolder, $"{safeDocId}.progress.json");
+        return Path.Combine(_baseFolder, $"{safeDocId}{FileNames.ProgressSnapshot}");
     }
 
     private class ProgressSnapshot

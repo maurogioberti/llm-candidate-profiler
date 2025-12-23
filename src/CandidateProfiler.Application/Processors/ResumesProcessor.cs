@@ -1,49 +1,66 @@
 using System.Diagnostics;
 using System.Text.Json;
+using CandidateProfiler.Application.Constants;
+using CandidateProfiler.Application.Domain.Config;
 using CandidateProfiler.Application.Domain.Models;
 using CandidateProfiler.Application.Processors.Abstractions;
 using CandidateProfiler.Application.Services.Abstractions;
 
 namespace CandidateProfiler.Application.Processors;
 
-public class ResumesProcessor(
+public class ResumesProcessor : IResumesProcessor
+{
+    private readonly IDocumentReader _reader;
+    private readonly ILlmService _llm;
+    private readonly ITaskConfigLoader _configLoader;
+    private readonly IReportBuilder _reportBuilder;
+    private readonly IPromptService _promptService;
+    private readonly AppConfig _appConfig;
+
+    public ResumesProcessor(
         IDocumentReader reader,
         ILlmService llm,
         ITaskConfigLoader configLoader,
         IReportBuilder reportBuilder,
-        IPromptService promptService) : IResumesProcessor
-{
+        IPromptService promptService,
+        AppConfig appConfig)
+    {
+        _reader = reader;
+        _llm = llm;
+        _configLoader = configLoader;
+        _reportBuilder = reportBuilder;
+        _promptService = promptService;
+        _appConfig = appConfig;
+    }
 
     public async Task RunAsync(string inputConfigurations, string inputDirectory)
     {
-        var inputFiles = Directory.GetFiles(inputDirectory, "*.pdf");
+        var inputFiles = Directory.GetFiles(inputDirectory, FileExtensions.Pdf);
         var rawConfigFile = await File.ReadAllTextAsync(inputConfigurations);
         var configClass = JsonSerializer.Deserialize<RagTaskConfig>(rawConfigFile)!;
-        var assets = configLoader.LoadAssetsAsync(configClass);
+        var assets = _configLoader.LoadAssetsAsync(configClass);
 
         if (!inputFiles.Any())
         {
-            Console.WriteLine("No PDF files found in the input directory.");
+            Console.WriteLine(ConsoleMessages.NoPdfFilesFound);
             return;
         }
 
-        await ProcessInputFile(reader, llm, promptService, inputFiles, assets);
+        await ProcessInputFiles(inputFiles, assets);
 
-        var outputDir = Path.Combine("Data", "Output");
-
-        var jsonFiles = Directory.GetFiles(outputDir, "*.json");
+        var jsonFiles = Directory.GetFiles(_appConfig.Paths.Output, FileExtensions.Json);
 
         if (!jsonFiles.Any())
         {
-            Console.WriteLine("No JSON files found in the output directory.");
+            Console.WriteLine(ConsoleMessages.NoJsonFilesFound);
             return;
         }
 
-        var report = await reportBuilder.GenerateHtmlReportAsync(jsonFiles);
+        var report = await _reportBuilder.GenerateHtmlReportAsync(jsonFiles);
 
-        var reportFile = Path.Combine("Data", "Output", "report.html");
+        var reportFile = Path.Combine(_appConfig.Paths.Output, FileNames.Report);
         await File.WriteAllTextAsync(reportFile, report);
-        Console.WriteLine($"HTML report generated at: {reportFile}");
+        Console.WriteLine(string.Format(ConsoleMessages.ReportGenerated, reportFile));
 
         Process.Start(new ProcessStartInfo
         {
@@ -51,36 +68,33 @@ public class ResumesProcessor(
             UseShellExecute = true
         });
 
-        Console.WriteLine("All resumes processed successfully!");
+        Console.WriteLine(ConsoleMessages.AllProcessed);
     }
 
-    private static async Task ProcessInputFile(IDocumentReader reader, ILlmService llm, IPromptService promptService, string[] inputFiles, LoadedTaskAssets assets)
+    private async Task ProcessInputFiles(string[] inputFiles, LoadedTaskAssets assets)
     {
         foreach (var file in inputFiles)
         {
             var fileName = Path.GetFileNameWithoutExtension(file);
-            var outputFile = Path.Combine("Data", "Output", $"{fileName}.json");
+            var outputFile = Path.Combine(_appConfig.Paths.Output, $"{fileName}{FileExtensions.Json.TrimStart('*')}");
 
             if (File.Exists(outputFile))
             {
-                Console.WriteLine($"Output for {fileName} already exists, skipping.");
+                Console.WriteLine(string.Format(ConsoleMessages.FileAlreadyExists, fileName));
                 continue;
             }
 
-            Console.WriteLine($"Processing {fileName}...");
+            Console.WriteLine(string.Format(ConsoleMessages.ProcessingFile, fileName));
 
-            var pages = await reader.ReadPagesAsync(file);
-
+            var pages = await _reader.ReadPagesAsync(file);
             var fullText = string.Join(Environment.NewLine, pages);
+            var prompt = _promptService.PreparePrompt(assets.PromptTemplate, fullText);
+            var jsonResult = await _llm.CompleteAsync(prompt);
 
-            var prompt = promptService.PreparePrompt(assets.PromptTemplate, fullText);
-
-            var jsonResult = await llm.CompleteAsync(prompt);
-
-            Directory.CreateDirectory(Path.Combine("Data", "Output"));
+            Directory.CreateDirectory(_appConfig.Paths.Output);
             await File.WriteAllTextAsync(outputFile, jsonResult);
 
-            Console.WriteLine($"Processed and saved output for {fileName}.");
+            Console.WriteLine(string.Format(ConsoleMessages.FileSaved, fileName));
         }
     }
 }

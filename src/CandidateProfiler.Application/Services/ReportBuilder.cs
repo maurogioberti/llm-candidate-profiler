@@ -1,4 +1,5 @@
 using System.Text;
+using CandidateProfiler.Application.Constants;
 using CandidateProfiler.Application.Domain.Config;
 using CandidateProfiler.Application.Helpers;
 using CandidateProfiler.Application.Services.Abstractions;
@@ -54,7 +55,7 @@ public class ReportBuilder : IReportBuilder
 
             if (jsonObject is null)
             {
-                Console.WriteLine($"Invalid JSON file: {jsonFile}, skipping...");
+                Console.WriteLine(string.Format(ConsoleMessages.InvalidJsonFile, jsonFile));
                 continue;
             }
 
