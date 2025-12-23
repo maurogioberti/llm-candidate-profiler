@@ -5,7 +5,7 @@ public class AppConfig
     public PathsConfig Paths { get; set; } = new();
     public ConfigFilesConfig ConfigFiles { get; set; } = new();
     public TemplatesConfig Templates { get; set; } = new();
-    public string LlmProvider { get; set; } = "Ollama";
+    public string LlmProvider { get; set; } = string.Empty;
     public OllamaConfig Ollama { get; set; } = new();
     public OpenAiConfig OpenAi { get; set; } = new();
 }
