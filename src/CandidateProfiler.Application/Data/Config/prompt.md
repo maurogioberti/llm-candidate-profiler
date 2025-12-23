@@ -9,6 +9,10 @@ Process and evaluate it thoroughly, performing cleaning, rewriting, and a comple
 
 Act as an advanced Resume Analyzer and Rewriter.
 
+- If the resume is not originally in English, translate the entire content into English before analysis.  
+- In the output JSON, set `"Translated"` to the original language (e.g., `"Spanish"`).  
+- Also, if that original language is not already listed under `"Languages"`, add it as `"Native"`.
+
 You will receive the content of a resume extracted from a PDF.
 
 Follow these instructions carefully:
@@ -153,7 +157,8 @@ Provide the cleaned, improved resume text ready for export.
     "MainIndustry": null,
     "EnglishLevel": null,
     "OtherLanguages": [],
-    "Location": null
+    "Location": null,
+    "Translated": null
   },
   "SkillMatrix": [],
   "KeywordCoverage": {
